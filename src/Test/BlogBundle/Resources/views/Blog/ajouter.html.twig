@@ -1,0 +1,20 @@
+{% extends 'TestBlogBundle::layout.html.twig' %}
+{% block testBlogBody %}
+	<h2>Ajouter un article</h2>
+	
+	{% include 'TestBlogBundle:Blog:formulaire.html.twig' %}
+	
+	<p>
+		Attention cet article sera directement 
+		ajouté sur la page d'accueil après 
+		validation de ce formulaire	
+	</p>
+
+	<p>
+		{# retour à l'accueil #}
+		<a href="{{ path('testblog_accueil') }}" class="btn">
+			<i class="icon-chevron-left"></i>
+			Retour à l'accueil
+		</a>
+	</p>
+{% endblock %}

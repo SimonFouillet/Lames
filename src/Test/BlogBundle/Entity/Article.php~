@@ -1,0 +1,387 @@
+<?php
+
+namespace Test\BlogBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Article
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Test\BlogBundle\Entity\ArticleRepository")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class Article
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titre", type="string", length=255)
+     */
+    private $titre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="auteur", type="string", length=255)
+     */
+    private $auteur;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contenu", type="text")
+     */
+    private $contenu;
+    
+    /**
+     * 
+     * @var boolean
+     * 
+     * @ORM\Column(name="publication", type="boolean")
+     */
+    private $publication;
+    
+    /**
+     * @ORM\Column(name="dateEdition", type="datetime", nullable=true)
+     * @var unknown
+     */
+    private $dateEdition;
+    
+    /**
+     * @ORM\Column(name="nbCommentaire", type="integer")
+     */
+    private $nbCommentaires;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Test\BlogBundle\Entity\Image", cascade={"persist"})
+     */
+    private $image;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Test\BlogBundle\Entity\Categorie", cascade={"persist"})
+     */
+	private $categories;
+	
+	/**
+	 * @ORM\OneToMany(targetEntity="Test\BlogBundle\Entity\Commentaire", mappedBy="article")
+	 * @var unknown
+	 */
+	private $commentaires;
+
+    public function __construct() {
+    	$this->date = new \DateTime();
+    	$this->publication = true;
+    	$this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+    	$this->nbCommentaires = 0;
+    }
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return Article
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set titre
+     *
+     * @param string $titre
+     * @return Article
+     */
+    public function setTitre($titre)
+    {
+        $this->titre = $titre;
+
+        return $this;
+    }
+
+    /**
+     * Get titre
+     *
+     * @return string 
+     */
+    public function getTitre()
+    {
+        return $this->titre;
+    }
+
+    /**
+     * Set auteur
+     *
+     * @param string $auteur
+     * @return Article
+     */
+    public function setAuteur($auteur)
+    {
+        $this->auteur = $auteur;
+
+        return $this;
+    }
+
+    /**
+     * Get auteur
+     *
+     * @return string 
+     */
+    public function getAuteur()
+    {
+        return $this->auteur;
+    }
+
+    /**
+     * Set contenu
+     *
+     * @param string $contenu
+     * @return Article
+     */
+    public function setContenu($contenu)
+    {
+        $this->contenu = $contenu;
+
+        return $this;
+    }
+
+    /**
+     * Get contenu
+     *
+     * @return string 
+     */
+    public function getContenu()
+    {
+        return $this->contenu;
+    }
+
+    /**
+     * Set publication
+     *
+     * @param boolean $publication
+     * @return Article
+     */
+    public function setPublication($publication)
+    {
+        $this->publication = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Get publication
+     *
+     * @return boolean 
+     */
+    public function getPublication()
+    {
+        return $this->publication;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \Test\BlogBundle\Entity\Image $image
+     * @return Article
+     */
+    public function setImage(\Test\BlogBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Test\BlogBundle\Entity\Image 
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Add categorie
+     *
+     * @param \TestBlogBundle\Entity\Categorie $categories
+     * @return Article
+     */
+    public function addCategorie(\Test\BlogBundle\Entity\Categorie $categorie)
+    {
+        $this->categories[] = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Remove categorie
+     *
+     * @param \TestBlogBundle\Entity\Categorie $categories
+     */
+    public function removeCategorie(\Test\BlogBundle\Entity\Categorie $categorie)
+    {
+        $this->categories->removeElement($categorie);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param \Test\BlogBundle\Entity\Categorie $categories
+     * @return Article
+     */
+    public function addCategory(\Test\BlogBundle\Entity\Categorie $categories)
+    {
+        $this->categories[] = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Remove categories
+     *
+     * @param \Test\BlogBundle\Entity\Categorie $categories
+     */
+    public function removeCategory(\Test\BlogBundle\Entity\Categorie $categories)
+    {
+        $this->categories->removeElement($categories);
+    }
+
+    /**
+     * Add commentaires
+     *
+     * @param \Test\BlogBundle\Entity\Commentaire $commentaires
+     * @return Article
+     */
+    public function addCommentaire(\Test\BlogBundle\Entity\Commentaire $commentaires)
+    {
+        $this->commentaires[] = $commentaires;
+        //Cette méthode permet d'ajouter l'article au commentaire 
+        //lorsque l'on ajoute un commentaire à l'article (relation bi-directionnelle
+        $commentaires->setArticle($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaires
+     *
+     * @param \Test\BlogBundle\Entity\Commentaire $commentaires
+     */
+    public function removeCommentaire(\Test\BlogBundle\Entity\Commentaire $commentaires)
+    {
+        $this->commentaires->removeElement($commentaires);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
+    }
+
+    /**
+     * Set dateEdition
+     *
+     * @param \dateTime $dateEdition
+     * @return Article
+     */
+    public function setDateEdition($dateEdition)
+    {
+        $this->dateEdition = $dateEdition;
+
+        return $this;
+    }
+
+    /**
+     * Get dateEdition
+     *
+     * @return \dateTime 
+     */
+    public function getDateEdition()
+    {
+        return $this->dateEdition;
+    }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDatEdition() {
+    	$this->dateEdition = new \DateTime();
+    }
+
+    /**
+     * Set nbCommentaires
+     *
+     * @param \int $nbCommentaires
+     * @return Article
+     */
+    public function setNbCommentaires($nbCommentaires)
+    {
+        $this->nbCommentaires = $nbCommentaires;
+
+        return $this;
+    }
+
+    /**
+     * Get nbCommentaires
+     *
+     * @return \int 
+     */
+    public function getNbCommentaires()
+    {
+        return $this->nbCommentaires;
+    }
+}

@@ -1,0 +1,37 @@
+#affiche l'accueil du blog   
+testblog_accueil:
+    path:        /{page}
+    defaults:    { _controller: 'TestBlogBundle:Blog:index', page: '1', nbArticles: 3}
+    requirements:
+        page: \d*
+    
+#Récupère le contenu d'un billet
+testblog_voir:
+    path:        /article/{id}
+    defaults:    { _controller: 'TestBlogBundle:Blog:voir' }
+    requirements:
+      id: \d+
+
+#Permet d'ajouter un billet au blog  
+testblog_ajouter:
+    path:        /ajouter
+    defaults:    { _controller: 'TestBlogBundle:Blog:ajouter' }
+    
+#Permet de modifier un billet du blog  
+testblog_modifier:
+    path:        /modifier/{id}
+    defaults:    { _controller: 'TestBlogBundle:Blog:modifier' }
+    requirements:
+        id: \d+
+           
+#Permet de supprimer un billet du blog  
+testblog_supprimer:
+    path:        /supprimer/{id}
+    defaults:    { _controller: 'TestBlogBundle:Blog:supprimer' }
+    requirements:
+        id: \d+
+        
+#Permet de jouer la méthode de test pour bidouiller
+testblog_tester:
+    path:        /tester/{text}
+    defaults:    { _controller: 'TestBlogBundle:Blog:test' }

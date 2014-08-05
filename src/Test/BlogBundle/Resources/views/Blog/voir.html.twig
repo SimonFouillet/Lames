@@ -1,0 +1,74 @@
+{% extends 'TestBlogBundle::layout.html.twig' %}
+{% block title %}Lecture d'un article{% endblock %}
+{% block testBlogBody %}
+	<h2>
+		{% if article.image is not null %}
+			<img 
+				src="{{ asset(article.image.uploadDir ~ '/' ~ article.image.id ~ '.' ~ article.image.url) }}" 
+				alt="{{ article.image.alt }}"/>
+		{% endif %}
+
+		{{ article.titre }}
+	</h2>
+	Par {{ article.auteur }}, le {{ article.date|date("d/m/Y", "Europe/Paris") }},
+	
+	{% if(article.categories.count > 0) %}
+		- Categories :
+		{% for categorie  in article.categories %}
+			{{ categorie.nom }}
+			{% if not loop.last %}, {% endif %}
+		{% endfor %}
+	{% endif %}
+	
+	<br/>
+	
+	{% if(listeArticleCompetences|length > 0) %}
+		-Compétences :
+		<ul>
+			{% for articleCompetence in listeArticleCompetences %}
+				<li>
+					{{ articleCompetence.competence.nom }}
+					{# niveau de la compétence #}
+					({{ articleCompetence.niveau }})
+				</li>
+			{% endfor %}
+		</ul>
+	{% endif %}
+	
+	<div class="well">
+		{{ article.contenu }}
+	</div>
+	
+	<h3>{{ article.nbCommentaires }} Commentaires: </h3>
+	<div class="well">
+		
+		{% for commentaire in article.commentaires %}
+		
+		Le {{ commentaire.date|date("d/m/Y") }}, par <b>{{ commentaire.auteur }}</b>
+		<div class="well">
+			{{ commentaire.contenu }}
+		</div>
+		{% endfor %}
+	</div>
+	
+	
+	<p>
+		{# retour #}
+		<a href="{{ path('testblog_accueil') }}" class="btn">
+			<i class="icon-chevron-left"></i>
+			Retour
+		</a>
+		
+		{# modifier #}
+		<a href="{{ path('testblog_modifier', {'id': article.id}) }}" class="btn">
+			<i class="icon-edit"></i>
+			Modifier l'article
+		</a>
+		
+		{# supprimer #}
+		<a href="{{ path('testblog_supprimer', {'id': article.id}) }}" class="btn">
+			<i class="icon-trash"></i>
+			Supprimer l'article
+		</a>
+	</p>
+{% endblock %}

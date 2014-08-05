@@ -1,0 +1,28 @@
+{% extends 'TestBlogBundle::layout.html.twig' %}
+{% block title %}{{ parent() }} - Index{% endblock %}
+{% block header %}{{ parent() }}Blog{%  endblock %}
+{% block testBlogBody %}
+	<h2>Liste des articles du blog</h2>
+	
+	<ul>
+		{% for article in listeArticles %}
+			<li>
+				<a href="{{ path('testblog_voir', {'id' : article.id}) }}">{{ article.titre }}</a>
+				par {{ article.auteur }},
+				le {{ article.date|date("d/m/Y", "Europe/Paris") }}
+			</li>
+		{% else %}
+			Pas d'article pour le moment!!
+		{% endfor %}	
+	</ul>
+	<div class="pagination">
+		<ul>
+			{% for i in 1..nombrePage %}
+		  		<li {% if(i == page) %} class="active" {% endif %}> 
+		  			<a href="{{ path('testblog_accueil', {'page' : i }) }}" >{{ i }}</a> 
+		  		</li>
+		  	{% endfor %}
+		</ul>
+	</div>
+
+{% endblock %}

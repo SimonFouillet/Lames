@@ -1,0 +1,18 @@
+{% extends 'TestBlogBundle::layout.html.twig' %}
+{% block testBlogBody %}
+	<h2>Modifier un article</h2>
+	
+	{% include 'TestBlogBundle:Blog:formulaire.html.twig' %}
+	
+	<p>
+		Attention!! Cet article sera directement modifié sur la page d'accueil après validation de ce formulaire	
+	</p>
+	
+	<p>
+		<a href="{{ path('testblog_voir', {'id': article.id}) }}" class='btn'>
+			<i class='icon-chevron-left'></i>
+			Retour à l'article
+		</a>
+	</p>
+	
+{% endblock %}
